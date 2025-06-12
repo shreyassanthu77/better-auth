@@ -96,9 +96,11 @@ export async function getConfig({
 	configPath?: string;
 	shouldThrowOnError?: boolean;
 }) {
-	const resolvedPath =
-		configPath ??
-		(await resolveConfigFilePath(cwd, configPath, shouldThrowOnError));
+	const resolvedPath = await resolveConfigFilePath(
+		cwd,
+		configPath,
+		shouldThrowOnError,
+	);
 	const config = await loadConfigFile(cwd, resolvedPath, shouldThrowOnError);
 	return config.auth?.options ?? config.default?.options ?? null;
 }
