@@ -203,12 +203,14 @@ async function resolveConfigFilePath(
 	throwOnError?: boolean,
 ) {
 	if (configPath) {
-		if (existsSync(configPath)) {
-			if (path.isAbsolute(configPath)) {
-				return path.relative(cwd, configPath);
-			} else {
-				return configPath;
-			}
+		let resolvedPath: string;
+		if (path.isAbsolute(configPath)) {
+			resolvedPath = configPath;
+		} else {
+			resolvedPath = path.join(cwd, configPath);
+		}
+		if (existsSync(resolvedPath)) {
+			return resolvedPath;
 		} else {
 			if (throwOnError) {
 				throw new Error(
