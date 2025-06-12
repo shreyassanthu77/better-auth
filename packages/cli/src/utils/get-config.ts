@@ -124,11 +124,15 @@ async function loadConfigFile(
 	configPath: string,
 	throwOnError?: boolean,
 ) {
-	const viteConfigRes = await loadViteConfig({
-		command: "serve",
-		mode: "development",
-		isSsrBuild: true,
-	});
+	const viteConfigRes = await loadViteConfig(
+		{
+			command: "serve",
+			mode: "development",
+			isSsrBuild: true,
+		},
+		undefined, // vite config path (optional)
+		cwd, // vite project root
+	);
 	if (viteConfigRes) {
 		logger.info("Vite config detected. Using Vite config to load config.");
 		const { module: config } = await runnerImport<BetterAuthConfig>(
